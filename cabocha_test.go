@@ -10,6 +10,9 @@ func TestCabocha(t *testing.T) {
 	if err != nil {
 		t.Error(err)
 	}
+	if sentence.Text != "あなたとJava" {
+		t.Error("")
+	}
 	if len(sentence.Chunks) <= 0 {
 		t.Fatal("Failed to parse.")
 	}
