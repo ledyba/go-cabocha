@@ -26,9 +26,9 @@ type Chunk struct {
 type Token struct {
 	XMLName  xml.Name `xml:"tok"`
 	ID       int      `xml:"id,attr"`
-	feature  string   `xml:"feature,attr"`
+	Feature  string   `xml:"feature,attr"`
 	Features []string `xml:"-"`
-	body     string   `xml:",chardata"`
+	Body     string   `xml:",chardata"`
 }
 
 func (self *Sentence) Chunk(id int) *Chunk {
@@ -51,7 +51,7 @@ func (self *Sentence) Token(id int) *Token {
 }
 
 func (tok *Token) Contains(feature string) bool {
-	return strings.Contains(tok.feature, feature)
+	return strings.Contains(tok.Feature, feature)
 }
 
 func (tok *Token) Base() string {
@@ -66,7 +66,7 @@ func (tok *Token) Pron() string {
 	return tok.Features[8]
 }
 func (tok *Token) Surface() string {
-	return tok.body
+	return tok.Body
 }
 
 func (chunk *Chunk) Body() string {
@@ -112,7 +112,7 @@ func (cabo *Cabocha) Parse(sentence string) (*Sentence, error) {
 	err = xml.Unmarshal(out, res)
 	for _, chunk := range res.Chunks {
 		for _, tok := range chunk.Tokens {
-			tok.Features = strings.Split(tok.feature, ",")
+			tok.Features = strings.Split(tok.Feature, ",")
 		}
 	}
 	if err != nil {

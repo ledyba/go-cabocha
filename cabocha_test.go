@@ -13,4 +13,7 @@ func TestCabocha(t *testing.T) {
 	if len(sentence.Chunks) <= 0 {
 		t.Fatal("Failed to parse.")
 	}
+	if sentence.Chunks[0].Tokens[0].Surface() != "あなた" {
+		t.Fatal(sentence)
+	}
 }
