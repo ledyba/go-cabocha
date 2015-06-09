@@ -2,6 +2,7 @@ package cabocha
 
 import (
 	"encoding/xml"
+	"fmt"
 	"io"
 	"os/exec"
 	"strings"
@@ -49,6 +50,13 @@ func (self *Sentence) Token(id int) *Token {
 	}
 	return nil
 }
+func (sentence *Sentence) ToString() string {
+	var strs []string
+	for _, chunk := range sentence.Chunks {
+		strs = append(strs, chunk.ToString())
+	}
+	return strings.Join(strs, " / ")
+}
 
 func (tok *Token) Contains(feature string) bool {
 	return strings.Contains(tok.Feature, feature)
@@ -65,14 +73,22 @@ func (tok *Token) Reading() string {
 func (tok *Token) Pron() string {
 	return tok.Features[8]
 }
+
 func (tok *Token) Surface() string {
 	return tok.Body
 }
 
-func (chunk *Chunk) Body() string {
+func (chunk *Chunk) ToString() string {
 	var strs []string
+
 	for _, tok := range chunk.Tokens {
-		strs = append(strs, tok.Surface())
+		if chunk.Head == tok.ID {
+			strs = append(strs, fmt.Sprintf("<%s>", tok.Surface()))
+		} else if chunk.Func == tok.ID {
+			strs = append(strs, fmt.Sprintf("[%s]", tok.Surface()))
+		} else {
+			strs = append(strs, tok.Surface())
+		}
 	}
 	return strings.Join(strs, " ")
 }
@@ -86,6 +102,7 @@ func MakeCabocha() *Cabocha {
 	self.path = "cabocha"
 	return self
 }
+
 func MakeCabochaWithPath(path string) *Cabocha {
 	self := &Cabocha{}
 	self.path = path
