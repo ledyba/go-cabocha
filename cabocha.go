@@ -110,9 +110,10 @@ func (cabo *Cabocha) Parse(sentence string) (*Sentence, error) {
 	}
 	res := &Sentence{}
 	err = xml.Unmarshal(out, res)
-	for _, chunk := range res.Chunks {
-		for _, tok := range chunk.Tokens {
-			tok.Features = strings.Split(tok.Feature, ",")
+	for ci := range res.Chunks {
+		for ti := range res.Chunks[ci].Tokens {
+			tok := &res.Chunks[ci].Tokens[ti]
+			(*tok).Features = strings.Split((*tok).Feature, ",")
 		}
 	}
 	if err != nil {
