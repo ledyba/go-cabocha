@@ -83,7 +83,7 @@ func (chunk *Chunk) ToString() string {
 
 	for _, tok := range chunk.Tokens {
 		if chunk.Head == chunk.Func && chunk.Head == tok.ID {
-			strs = append(strs, fmt.Sprintf("<[%s]>", tok.Surface()))
+			strs = append(strs, fmt.Sprintf("[<%s>]", tok.Surface()))
 		} else if chunk.Head == tok.ID {
 			strs = append(strs, fmt.Sprintf("<%s>", tok.Surface()))
 		} else if chunk.Func == tok.ID {
