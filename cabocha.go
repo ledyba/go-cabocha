@@ -12,6 +12,7 @@ type Sentence struct {
 	Text    string   `xml:"-"`
 	XMLName xml.Name `xml:"sentence"`
 	Chunks  []Chunk  `xml:"chunk"`
+	Tokens  []*Token `xml:"-"`
 }
 
 type Chunk struct {
@@ -134,6 +135,7 @@ func (cabo *Cabocha) Parse(sentence string) (*Sentence, error) {
 	for ci := range res.Chunks {
 		for ti := range res.Chunks[ci].Tokens {
 			tok := &res.Chunks[ci].Tokens[ti]
+			res.Tokens = append(res.Tokens, tok)
 			(*tok).Features = strings.Split((*tok).Feature, ",")
 		}
 	}
